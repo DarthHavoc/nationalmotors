@@ -1,0 +1,46 @@
+var id=qs("id")||INVENTORY[0].id;var v=(INVENTORY.concat(SOLD)).filter(function(x){return x.id===id;})[0];var sold=SOLD.indexOf(v)>-1;
+var el=document.getElementById('vdp');
+document.getElementById('crumb').innerHTML='<a href="index.html">Home</a> / <a href="inventory.html">Inventory</a> / '+(v?v.year+' '+v.make+' '+v.model:'Vehicle');
+if(!v){el.innerHTML='<div class="empty">Vehicle not found. <a class="link" href="inventory.html">View inventory</a></div>';}
+else{
+ var frames=(v.photos&&v.photos.length)?v.photos:[0,1,2,3];var N=frames.length;var real=(v.photos&&v.photos.length);
+ function pad(n){return (n<10?'0':'')+n;}
+ function mimg(i){return real?('<img class="real" src="'+frames[i]+'" alt="">'):('<img class="ph" src="'+MARK+'" alt="">');}
+ var thumbs=frames.map(function(f,i){return '<button data-i="'+i+'" aria-current="'+(i===0)+'">'+(real?('<img class="real" src="'+f+'">'):('<img class="ph" src="'+MARK+'">'))+'</button>';}).join('');
+ var gal='<div class="gallery"><div class="main">'+((v.ev&&!sold)?'<span class="ev">EV</span>':'')+'<span class="counter"><span id="cidx">01</span> / '+pad(N)+'</span><button class="gnav gprev" id="gprev" aria-label="Previous">\u2039</button><button class="gnav gnext" id="gnext" aria-label="Next">\u203a</button><span id="gmain">'+mimg(0)+'</span></div><div class="thumbs">'+thumbs+'</div><button class="viewall" id="viewall">View All '+N+' Photos</button><div class="badges gbadges"><a href="'+(v.vin?'https://www.carfax.com/vehicle/'+v.vin:'#')+'" target="_blank" rel="noopener">\u25c6 View CARFAX Report</a><a href="#" target="_blank" rel="noopener">\u25a4 Window Sticker</a></div></div>';
+ var s6=[['Mileage',v.miles?miles(v.miles):'\u2014'],['Engine',v.engine||'\u2014'],['Drive',v.drive||'\u2014'],['Exterior',v.color||'\u2014'],['Interior',v.interior||'\u2014'],['Body',v.type||'\u2014']];
+ var panel='<div class="vpanel glass"><span class="vp-year">'+v.year+(v.ev?' \u00b7 Electric':'')+'</span><h1 class="vp-title">'+v.make+' '+v.model+'</h1><div class="vp-sub">'+(v.color||'')+(v.highlight?' \u00b7 '+v.highlight:'')+'</div>';
+ if(!sold){panel+='<div class="vp-price">'+money(v.price)+'</div><div class="docfee">+ $'+DOC+' doc fee \u24d8<span class="tip">Advertised price excludes tax, title, tags, registration, government fees, and a $'+DOC+' processing/documentation fee. Not a financing offer.</span></div>';}
+ else{panel+='<div class="vp-price">Sold</div>';}
+ panel+='<div class="vp-ids"><span>Stock #'+v.id+'</span><span>VIN '+(v.vin||'\u2014')+'</span></div><hr class="vp-div"><dl class="vp-specs">'+s6.map(function(x){return '<div><dt>'+x[0]+'</dt><dd>'+x[1]+'</dd></div>';}).join('')+'</dl>';
+ if(!sold){panel+='<hr class="vp-div"><div class="vp-cta"><a class="btn fill block" href="contact.html?vehicle='+encodeURIComponent(v.year+' '+v.make+' '+v.model+' (Stock #'+v.id+')')+'">Schedule Test Drive</a><a class="btn block" href="financing.html?vehicle='+encodeURIComponent(v.year+' '+v.make+' '+v.model+' (Stock #'+v.id+')')+'">Get Financing</a><a class="btn block" id="offerbtn" href="#inquire">Make an Offer</a></div><div class="vp-note">No impact to your credit score to see your rate.</div><hr class="vp-div"><div class="vp-spec-line"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.5-1.1a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z"/></svg>Speak with a specialist \u00b7 <b>540 \u00b7 779 \u00b7 1258</b></div>';}
+ else{panel+='<hr class="vp-div"><div class="vp-cta"><a class="btn fill block" href="inventory.html">View Inventory</a><a class="btn block" href="source.html">Find Me One</a></div>';}
+ panel+='</div>';
+ el.innerHTML='<div class="vdp">'+gal+panel+'</div>';
+ var fspec=[['Mileage',v.miles?miles(v.miles):'\u2014'],['Engine',v.engine||'\u2014'],['Transmission',v.trans||'\u2014'],['Drivetrain',v.drive||'\u2014'],['Fuel',v.fuel||'\u2014'],[(v.ev?'Range':'Economy'),v.range||'\u2014'],['Exterior',v.color||'\u2014'],['Interior',v.interior||'\u2014'],['Stock #',v.id],['VIN',v.vin||'\u2014']];
+ var feats=(v.features&&v.features.length)?v.features:SAMPLE_FEATURES;
+ var below='<div class="section-label">Specifications</div><dl class="spec-grid">'+fspec.map(function(sx){return '<div><dt>'+sx[0]+'</dt><dd>'+sx[1]+'</dd></div>';}).join('')+'</dl>';
+ if(!sold){below+='<div class="section-label">Payment Estimate</div><div class="calcmod glass"><div class="calc-grid"><div class="calc-controls">'+
+  '<div class="f"><div class="l"><span>Vehicle Price</span><b>'+money(v.price)+'</b></div></div>'+
+  '<div class="f"><div class="l"><span>Down Payment</span><b id="dl"></b></div><input type="range" id="down" min="0" max="'+Math.round(v.price*0.5)+'" step="250"></div>'+
+  '<div class="f"><div class="l"><span>APR</span><b id="al"></b></div><input type="range" id="apr" min="4" max="20" step="0.1"></div>'+
+  '<div class="f"><div class="l"><span>Loan Term</span><b id="tl"></b></div><div class="terms" id="terms"><button data-n="36">36</button><button data-n="48">48</button><button data-n="60" aria-pressed="true">60</button><button data-n="72">72</button></div></div></div>'+
+  '<div class="calc-results"><div class="est"><span id="mo">$0</span><small>/mo est.</small></div><dl class="rgrid"><div><dt>Amount Financed</dt><dd id="rfin"></dd></div><div><dt>Total Interest</dt><dd id="rint"></dd></div><div><dt>Total of Payments</dt><dd id="rtot"></dd></div><div><dt>Number of Payments</dt><dd id="rcnt"></dd></div></dl></div></div><div class="disc">Estimate only \u2014 not a financing offer. Taxes, tags, and the $'+DOC+' doc fee excluded.</div></div>';}
+ below+='<div class="section-label">Overview</div><div class="overview"><p>This '+v.year+' '+v.make+' '+v.model+(v.highlight?' \u2014 '+v.highlight+' \u2014 ':' ')+'has been hand-selected and fully inspected. Finished in '+(v.color||'a premium exterior')+' over '+(v.interior||'a refined interior')+', it is offered with transparent pricing and nationwide delivery.</p></div>';
+ below+='<div class="section-label">Features &amp; Options</div><div class="features">'+feats.map(function(f){return '<span>'+f+'</span>';}).join('')+'</div>';
+ 
+ if(!sold){below+='<div class="section-label" id="inquire">Make an Offer / Inquire</div><form class="form glass" data-demo data-ok="Thank you \u2014 we will reach out about this vehicle shortly."><div class="frow"><div class="field"><label>Name</label><input required></div><div class="field"><label>Phone</label><input type="tel" required></div></div><div class="field full"><label>Message</label><textarea>I am interested in the '+v.year+' '+v.make+' '+v.model+' (Stock #'+v.id+').</textarea></div><button class="btn fill" type="submit">Send</button><div class="form-ok"></div></form>';}
+ el.insertAdjacentHTML('beforeend',below);
+ var sim=INVENTORY.filter(function(x){return x.id!==v.id;});sim.sort(function(a,b){return (b.type===v.type)-(a.type===v.type);});sim=sim.slice(0,3);
+ el.insertAdjacentHTML('beforeend','<div class="section-label" style="margin-top:5rem">You May Also Like</div><div class="grid3">'+sim.map(function(x){return card(x);}).join('')+'</div>');
+ var gi=0;function show(i){gi=(i+N)%N;document.getElementById('gmain').innerHTML=((v.ev&&!sold)?'<span class="ev">EV</span>':'')+mimg(gi);document.getElementById('cidx').textContent=pad(gi+1);document.querySelectorAll('.thumbs button').forEach(function(b,bi){b.setAttribute('aria-current',bi===gi);});}
+ document.getElementById('gprev').onclick=function(){show(gi-1);};document.getElementById('gnext').onclick=function(){show(gi+1);};document.getElementById('viewall').onclick=function(){show(gi+1);};
+ document.querySelector('.thumbs').addEventListener('click',function(e){var b=e.target.closest('button');if(b)show(+b.dataset.i);});
+ var ob=document.getElementById('offerbtn');if(ob)ob.onclick=function(e){e.preventDefault();var t=document.getElementById('inquire');if(t)t.scrollIntoView({behavior:'smooth'});};
+ if(!sold){var down=document.getElementById('down'),apr=document.getElementById('apr'),term=60;down.value=Math.round(v.price*0.1);apr.value=8.9;
+  function calc(){var P=Math.max(0,v.price-(+down.value)),r=(+apr.value)/100/12,n=term,m=r===0?P/n:P*r/(1-Math.pow(1+r,-n)),tot=m*n,intr=tot-P;
+   document.getElementById('mo').textContent=money(m);document.getElementById('dl').textContent=money(+down.value);document.getElementById('al').textContent=(+apr.value).toFixed(1)+'%';document.getElementById('tl').textContent=term+' mo';
+   document.getElementById('rfin').textContent=money(P);document.getElementById('rint').textContent=money(intr);document.getElementById('rtot').textContent=money(tot);document.getElementById('rcnt').textContent=n;}
+  down.oninput=calc;apr.oninput=calc;document.getElementById('terms').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;term=+b.dataset.n;document.querySelectorAll('#terms button').forEach(function(x){x.setAttribute('aria-pressed',x===b);});calc();});calc();
+  el.querySelectorAll('form[data-demo]').forEach(function(f){f.addEventListener('submit',function(e){e.preventDefault();var ok=f.querySelector('.form-ok');ok.style.display='block';ok.textContent=f.getAttribute('data-ok');});});}
+}
