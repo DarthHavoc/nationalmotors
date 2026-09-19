@@ -297,3 +297,10 @@ footer{border-top:1px solid var(--line);padding-block:clamp(4rem,7vw,6rem) 2.4re
 .estcta .eyebrow{display:block;margin-bottom:1rem}
 .estcta p{color:var(--muted);max-width:52ch;margin:0 auto 1.6rem}
 .estcta-btns{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap}
+
+/* Desktop-only header sizing (complements the max-width:1080px mobile nav breakpoint) */
+@media (min-width: 1081px){
+  .nav .logo{height:34px}
+  .uphone{font-size:.74rem}
+  .uphone svg{width:15px;height:15px}
+}
