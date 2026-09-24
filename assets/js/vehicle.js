@@ -33,7 +33,7 @@ else{
  el.insertAdjacentHTML('beforeend',below);
  var sim=INVENTORY.filter(function(x){return x.id!==v.id;});sim.sort(function(a,b){return (b.type===v.type)-(a.type===v.type);});sim=sim.slice(0,3);
  el.insertAdjacentHTML('beforeend','<div class="section-label" style="margin-top:5rem">You May Also Like</div><div class="grid3">'+sim.map(function(x){return card(x);}).join('')+'</div>');
- var gi=0;function show(i){gi=(i+N)%N;document.getElementById('gmain').innerHTML=((v.ev&&!sold)?'<span class="ev">EV</span>':'')+mimg(gi);document.getElementById('cidx').textContent=pad(gi+1);document.querySelectorAll('.thumbs button').forEach(function(b,bi){b.setAttribute('aria-current',bi===gi);});}
+ var gi=0;function show(i){gi=(i+N)%N;document.getElementById('gmain').innerHTML=mimg(gi);document.getElementById('cidx').textContent=pad(gi+1);document.querySelectorAll('.thumbs button').forEach(function(b,bi){b.setAttribute('aria-current',bi===gi);});}
  document.getElementById('gprev').onclick=function(){show(gi-1);};document.getElementById('gnext').onclick=function(){show(gi+1);};document.getElementById('viewall').onclick=function(){show(gi+1);};
  document.querySelector('.thumbs').addEventListener('click',function(e){var b=e.target.closest('button');if(b)show(+b.dataset.i);});
  var ob=document.getElementById('offerbtn');if(ob)ob.onclick=function(e){e.preventDefault();var t=document.getElementById('inquire');if(t)t.scrollIntoView({behavior:'smooth'});};
