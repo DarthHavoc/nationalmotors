@@ -362,3 +362,26 @@ footer .foot-col a.v:hover{color:var(--muted)}
 .home-delivery::before{background:radial-gradient(70% 70% at 50% -10%,rgba(255,255,255,.03),transparent 70%),#0A0A0B}
 .home-delivery::after{display:none}
 .home-delivery .dband{background:transparent;backdrop-filter:none}
+/* ===== HOME cohesion: one continuous canvas, feathered seams ===== */
+/* 1. A single ambient wash sits behind every section, so the plain
+      sections and the photographic ones read as one continuous surface
+      instead of alternating panels. Fixed, so it never seams on scroll. */
+body.home::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(58% 38% at 80% 6%,rgba(150,170,210,.08),transparent 62%),radial-gradient(66% 42% at 10% 40%,rgba(206,146,84,.075),transparent 64%),radial-gradient(60% 38% at 72% 80%,rgba(150,180,230,.055),transparent 62%)}
+/* 2. One film grain over the whole page — a shared texture is the cheapest
+      way to make separately-sourced imagery feel like one shoot. */
+body.home::after{content:"";position:fixed;inset:0;z-index:6;pointer-events:none;opacity:.11;mix-blend-mode:overlay;background-image:var(--grain)}
+/* 3. Lift all content above every backdrop, so bleeding layers can never
+      paint over a neighbouring section's text. */
+body.home section>.wrap{position:relative;z-index:1}
+/* 4. The seam killer: let each photographic backdrop overhang its section
+      box and fade out at both ends, so neighbours cross-dissolve rather
+      than butting against a hard edge. */
+body.home #process,body.home .home-delivery,body.home .statement,body.home .find-next{overflow:visible}
+body.home #process::before,body.home .home-delivery::before,body.home .statement::before,body.home .find-next::before{inset:-14vh 0;z-index:0;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 17%,#000 83%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 17%,#000 83%,transparent 100%)}
+/* 5. Keep the map section translucent so the page wash carries through it. */
+body.home .home-delivery::before{background:radial-gradient(70% 70% at 50% -10%,rgba(255,255,255,.035),transparent 70%)}
+/* 6. Hero dissolves downward into the page instead of stopping dead. */
+body.home .hero{overflow:hidden}
+body.home .hero::after{background:linear-gradient(90deg,rgba(8,8,9,.88) 0%,rgba(8,8,9,.55) 36%,rgba(8,8,9,0) 70%),radial-gradient(130% 100% at 50% 42%,transparent 55%,rgba(0,0,0,.55)),linear-gradient(to bottom,transparent 74%,rgba(10,10,11,.85) 93%,var(--bg) 100%)}
+/* 7. No ruled lines between home sections. */
+body.home .statement{border-top:0;border-bottom:0}
