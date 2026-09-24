@@ -411,3 +411,13 @@ body.home .statement{border-top:0;border-bottom:0}
 /* no frame around the delivery band on the home page - delivery.html and
    financing.html keep theirs */
 .home-delivery .dband{border:0}
+/* ===== Hero slideshow (5 slides, slow zoom + cross-fade) ===== */
+.hero-media{background:#0a0a0b url(../img/hero-slides/1.png) center/cover no-repeat;transform:none;animation:none}
+.hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;will-change:opacity,transform;animation:heroFade 40s linear infinite,heroKen 16s ease-in-out infinite alternate}
+.hero-slide:nth-child(1){animation-delay:0s,0s}
+.hero-slide:nth-child(2){animation-delay:8s,0s}
+.hero-slide:nth-child(3){animation-delay:16s,0s}
+.hero-slide:nth-child(4){animation-delay:24s,0s}
+.hero-slide:nth-child(5){animation-delay:32s,0s}
+@keyframes heroFade{0%{opacity:0}2%{opacity:1}18%{opacity:1}20%{opacity:0}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.hero-slide{animation:none;opacity:0}.hero-slide:nth-child(1){opacity:1}}
