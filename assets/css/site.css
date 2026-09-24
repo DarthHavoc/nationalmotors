@@ -57,9 +57,9 @@ section{padding-block:clamp(4rem,7.5vw,6.5rem);position:relative}
 .hero .cta{display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center;opacity:0;animation:rise 1.1s .46s ease forwards}
 @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 .marquee{border-block:1px solid var(--line);overflow:hidden;padding:1.9rem 0;background:#080809}
-.marquee-track{display:flex;align-items:center;gap:clamp(2.6rem,5vw,5rem);width:max-content;animation:scroll 55s linear infinite}
+.marquee-track{display:flex;align-items:center;width:max-content;animation:scroll 55s linear infinite}
 .marquee:hover .marquee-track{animation-play-state:paused}
-.marquee svg{height:26px;width:auto;fill:var(--muted);opacity:.62;transition:opacity .35s;flex:none}
+.marquee svg{height:26px;width:auto;fill:var(--muted);opacity:.62;transition:opacity .35s;flex:none;margin-right:clamp(2.6rem,5vw,5rem)}
 .marquee svg:hover{opacity:1;fill:var(--ink)}
 @keyframes scroll{to{transform:translateX(-50%)}}
 .page-head{padding:clamp(170px,22vh,250px) 0 clamp(2rem,5vw,4rem)}
@@ -412,12 +412,17 @@ body.home .statement{border-top:0;border-bottom:0}
    financing.html keep theirs */
 .home-delivery .dband{border:0}
 /* ===== Hero slideshow (5 slides, slow zoom + cross-fade) ===== */
-.hero-media{background:#0a0a0b url(../img/hero-slides/1.png) center/cover no-repeat;transform:none;animation:none}
-.hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;will-change:opacity,transform;animation:heroFade 40s linear infinite,heroKen 16s ease-in-out infinite alternate}
+/* No slide image on the container: it sat under every slide and showed
+   through as a flash of slide 1 on each transition. */
+.hero-media{background:#0a0a0b;transform:none;animation:none}
+.hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;will-change:opacity,transform;animation:heroFade 60s linear infinite,heroKen 30s ease-in-out infinite alternate}
 .hero-slide:nth-child(1){animation-delay:0s,0s}
-.hero-slide:nth-child(2){animation-delay:8s,0s}
-.hero-slide:nth-child(3){animation-delay:16s,0s}
-.hero-slide:nth-child(4){animation-delay:24s,0s}
-.hero-slide:nth-child(5){animation-delay:32s,0s}
-@keyframes heroFade{0%{opacity:0}2%{opacity:1}18%{opacity:1}20%{opacity:0}100%{opacity:0}}
+.hero-slide:nth-child(2){animation-delay:12s,0s}
+.hero-slide:nth-child(3){animation-delay:24s,0s}
+.hero-slide:nth-child(4){animation-delay:36s,0s}
+.hero-slide:nth-child(5){animation-delay:48s,0s}
+/* 12s per slide = 20% of the 60s cycle. Each slide holds to 20% and fades
+   out over 20-23%, which is exactly the window the next one fades in, so
+   they cross-dissolve instead of both hitting zero together. */
+@keyframes heroFade{0%{opacity:0}3%{opacity:1}20%{opacity:1}23%{opacity:0}100%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.hero-slide{animation:none;opacity:0}.hero-slide:nth-child(1){opacity:1}}
