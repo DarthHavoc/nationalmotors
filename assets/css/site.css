@@ -279,6 +279,12 @@ footer{border-top:1px solid var(--line);padding-block:clamp(4rem,7vw,6rem) 2.4re
 .vhc .meta .cname{font-family:"Oswald";font-weight:300;text-transform:uppercase;letter-spacing:.07em;font-size:1.02rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
 .vhc .meta .cprice{font-family:"Inter";font-weight:400;font-size:.98rem;white-space:nowrap}
 .cspecs{margin-top:auto}
+/* sold cards: masked VIN, no price, find-similar CTA */
+.vhc.sold{position:relative}
+.vhc.sold .cardlink{display:block;flex:none}
+.vhc.sold .cardlink::after{content:"";position:absolute;inset:0;z-index:1}
+.cvin{font-family:"Inter";font-weight:400;font-size:.62rem;letter-spacing:.16em;color:var(--muted);margin-top:.55rem;margin-bottom:1.15rem}
+.vhc.sold .findsim{position:relative;z-index:2;margin-top:auto;display:block}
 /* footer 3-col + contact row */
 .foot-grid{grid-template-columns:1.7fr 1fr 1fr}
 .foot-contact{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.5rem,3vw,3rem);margin-top:clamp(2.5rem,4vw,3.5rem);padding-top:clamp(2rem,3vw,2.6rem);border-top:1px solid var(--line)}
