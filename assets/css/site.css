@@ -385,3 +385,9 @@ body.home .hero{overflow:hidden}
 body.home .hero::after{background:linear-gradient(90deg,rgba(8,8,9,.88) 0%,rgba(8,8,9,.55) 36%,rgba(8,8,9,0) 70%),radial-gradient(130% 100% at 50% 42%,transparent 55%,rgba(0,0,0,.55)),linear-gradient(to bottom,transparent 74%,rgba(10,10,11,.85) 93%,var(--bg) 100%)}
 /* 7. No ruled lines between home sections. */
 body.home .statement{border-top:0;border-bottom:0}
+/* featured inventory on the home page runs 4 wide (.grid3 stays 3 for
+   the vehicle page's You May Also Like, which renders exactly 3 cards) */
+#feat{grid-template-columns:repeat(4,1fr);gap:clamp(1.1rem,2vw,1.8rem)}
+@media(max-width:1200px){#feat{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:900px){#feat{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){#feat{grid-template-columns:1fr}}
