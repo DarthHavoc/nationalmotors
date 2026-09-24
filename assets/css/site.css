@@ -95,7 +95,7 @@ section{padding-block:clamp(4rem,7.5vw,6.5rem);position:relative}
 .step .n{font-family:"Oswald";font-weight:200;font-size:2.6rem;color:var(--muted);line-height:1}
 .step h3{font-family:"Oswald";font-weight:300;text-transform:uppercase;letter-spacing:.14em;font-size:1.02rem;margin:1.1rem 0 .7rem}
 .step p{color:var(--muted);font-size:.9rem;line-height:1.65}
-.why{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.why{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
 @media(max-width:900px){.why{grid-template-columns:1fr 1fr}}@media(max-width:560px){.why{grid-template-columns:1fr}}
 .why .cell{background:var(--bg);padding:clamp(1.8rem,3vw,2.6rem)}
 .why .ico{width:30px;height:30px;color:var(--ink);margin-bottom:1.4rem;opacity:.85}
