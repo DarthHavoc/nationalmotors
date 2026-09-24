@@ -1,4 +1,4 @@
-var BATCH=9,shown=0,cur=[];
+var BATCH=12,shown=0,cur=[];
 var grid=document.getElementById('grid'),countEl=document.getElementById('count');
 var st={q:"",make:"",model:"",type:"",fuel:"",price:"",sort:"feat"};
 function uniq(k){return Array.from(new Set(INVENTORY.map(function(v){return v[k];}))).sort();}

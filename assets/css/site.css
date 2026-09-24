@@ -142,8 +142,11 @@ section{padding-block:clamp(4rem,7.5vw,6.5rem);position:relative}
 .fld select option{background:#111}
 .invhead{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:1.8rem}
 .count{font-family:"Inter";font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-.invgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,3vw,2.4rem)}
-@media(max-width:1100px){.invgrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:640px){.invgrid{grid-template-columns:1fr}}
+.invgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(1.1rem,2vw,1.8rem)}
+.invgrid>*{min-width:0}
+@media(max-width:1200px){.invgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:900px){.invgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.invgrid{grid-template-columns:minmax(0,1fr)}}
 .empty{grid-column:1/-1;padding:4rem 0;text-align:center;color:var(--muted);font-family:"Oswald";letter-spacing:.1em;text-transform:uppercase}
 .pager{display:flex;justify-content:center;gap:.6rem;margin-top:4rem}
 .pager button{background:transparent;border:1px solid var(--line);color:var(--muted);width:42px;height:42px;font-family:"Inter";font-size:.72rem;cursor:pointer;transition:.25s}
@@ -426,3 +429,5 @@ body.home .statement{border-top:0;border-bottom:0}
    they cross-dissolve instead of both hitting zero together. */
 @keyframes heroFade{0%{opacity:0}3%{opacity:1}20%{opacity:1}23%{opacity:0}100%{opacity:0}}
 @media (prefers-reduced-motion:reduce){.hero-slide{animation:none;opacity:0}.hero-slide:nth-child(1){opacity:1}}
+/* listing pages share the featured grid width so 4-up cards match the home page */
+.listwrap{max-width:1440px}
