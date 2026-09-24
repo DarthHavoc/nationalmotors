@@ -15,11 +15,20 @@
   return r.json();
  }).then(function(d){
   var posts=Array.isArray(d)?d:((d&&d.posts)||[]);
+  var handle=(d&&d.username)||'nationalmotorsva';
   var tiles=posts.slice(0,slots).map(tile).filter(Boolean);
   if(!tiles.length)return;
+  /* fewer posts than slots: pad with the placeholder tile rather than
+     leaving holes in the grid. Fills itself in as more posts are made. */
+  while(tiles.length<slots)tiles.push(filler(handle));
   grid.innerHTML=tiles.join('');
   grid.setAttribute('data-live','1');
  })['catch'](function(){/* keep the placeholders */});
+
+ function filler(handle){
+  return '<a class="igfill" href="https://instagram.com/'+esc(handle)+'" target="_blank" rel="noopener" aria-label="Follow on Instagram">'
+   +'<img src="assets/img/monogram.png" alt=""></a>';
+ }
 
  function src(p){
   var s=p.sizes||{};
