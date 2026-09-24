@@ -389,7 +389,12 @@ body.home .hero::after{background:linear-gradient(90deg,rgba(8,8,9,.88) 0%,rgba(
 body.home .statement{border-top:0;border-bottom:0}
 /* featured inventory on the home page runs 4 wide (.grid3 stays 3 for
    the vehicle page's You May Also Like, which renders exactly 3 cards) */
-#feat{grid-template-columns:repeat(4,1fr);gap:clamp(1.1rem,2vw,1.8rem)}
-@media(max-width:1200px){#feat{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:900px){#feat{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){#feat{grid-template-columns:1fr}}
+/* minmax(0,1fr) not 1fr: a bare 1fr track will not shrink below its
+   content's min-content width, so at 4-up the grid outgrows .wrap and
+   spills off the page. min-width:0 lets the card contents shrink too. */
+#feat{grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(1.1rem,2vw,1.8rem)}
+#feat>*{min-width:0}
+/* 4 cards do not divide into 3 columns - a 3-up step always orphans one
+   card on a second row and reads as off-centre. Go straight to 2+2. */
+@media(max-width:1080px){#feat{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){#feat{grid-template-columns:minmax(0,1fr)}}
