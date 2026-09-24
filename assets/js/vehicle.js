@@ -39,6 +39,18 @@ else{
  var gi=0;function show(i){gi=(i+N)%N;document.getElementById('gmain').innerHTML=mimg(gi);document.getElementById('cidx').textContent=pad(gi+1);document.querySelectorAll('.thumbs button').forEach(function(b,bi){b.setAttribute('aria-current',bi===gi);});}
  document.getElementById('gprev').onclick=function(){show(gi-1);};document.getElementById('gnext').onclick=function(){show(gi+1);};document.getElementById('viewall').onclick=function(){show(gi+1);};
  document.querySelector('.thumbs').addEventListener('click',function(e){var b=e.target.closest('button');if(b)show(+b.dataset.i);});
+ var galMain=document.querySelector('.gallery .main');
+ var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ if(real&&N>1&&galMain&&!reduce){
+  var slideTimer;
+  function startSlide(){slideTimer=setInterval(function(){show(gi+1);},4500);}
+  function resetSlide(){clearInterval(slideTimer);startSlide();}
+  ['gprev','gnext','viewall'].forEach(function(id){var b=document.getElementById(id);if(b)b.addEventListener('click',resetSlide);});
+  var th=document.querySelector('.thumbs');if(th)th.addEventListener('click',resetSlide);
+  galMain.addEventListener('mouseenter',function(){clearInterval(slideTimer);});
+  galMain.addEventListener('mouseleave',resetSlide);
+  startSlide();
+ }
  var ob=document.getElementById('offerbtn');if(ob)ob.onclick=function(e){e.preventDefault();var t=document.getElementById('inquire');if(t)t.scrollIntoView({behavior:'smooth'});};
  if(!sold){var down=document.getElementById('down'),apr=document.getElementById('apr'),term=60;down.value=Math.round(v.price*0.1);apr.value=8.9;
   function calc(){var P=Math.max(0,v.price-(+down.value)),r=(+apr.value)/100/12,n=term,m=r===0?P/n:P*r/(1-Math.pow(1+r,-n)),tot=m*n,intr=tot-P;
