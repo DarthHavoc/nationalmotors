@@ -1,3 +1,7 @@
+/* The live feed overwrites these globals. If it returns an empty list
+   (or fails to load), fall back to the bundled data in data.js. */
+if(!window.INVENTORY||!window.INVENTORY.length)window.INVENTORY=window.INVENTORY_FALLBACK||[];
+if(!window.SOLD||!window.SOLD.length)window.SOLD=window.SOLD_FALLBACK||[];
 (function(){
  var hd=document.getElementById('hd');
  if(hd)addEventListener('scroll',function(){hd.classList.toggle('solid',scrollY>40);},{passive:true});
