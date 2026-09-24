@@ -373,6 +373,8 @@ body.home::after{content:"";position:fixed;inset:0;z-index:6;pointer-events:none
 /* 3. Lift all content above every backdrop, so bleeding layers can never
       paint over a neighbouring section's text. */
 body.home section>.wrap{position:relative;z-index:1}
+/* ...but never demote the hero content below its own vignette overlays */
+body.home .hero>.wrap{z-index:2}
 /* 4. The seam killer: let each photographic backdrop overhang its section
       box and fade out at both ends, so neighbours cross-dissolve rather
       than butting against a hard edge. */
